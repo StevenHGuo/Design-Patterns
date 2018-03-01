@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <!-- jQuery -->
+    <script src="js/plugin/jquery/jquery-1.9.1.min.js"></script>
+
+    <!-- The jQuery must be import before bootstrap imported -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap/bootstrap-theme.min.css" />
+
+    <!-- Bootstrap switch plugin -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-switch/bootstrap-switch.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-switch/highlight.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-switch/main.css">
+    <link rel="stylesheet" type="text/css" href="js/plugin/jquery-loading/jquery.mloading.css">
+
+    <!-- Set some custom style. -->
+    <link rel="stylesheet" href="css/custom.css" />
+
+</head>
+
+<body>
+    <!-- The mian structure -->
+    <div id="content">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Character Panel Begin -->
+                <div id="character_panel" class="col-lg-3">
+                    <div class="list-group">
+                        <div class="list-group-item" id="template_name" title="Template Name">
+                            Log Out
+                        </div>
+                        <ol class="breadcrumb" title="The path of current characters.">
+                            <li>
+                                <a href="#">Root</a>
+                            </li>
+                        </ol>
+                        <!-- Search Input -->
+                        <div class="input-group" style="display:none">
+                            <input type="text" class="form-control no_radius" placeholder="Search Character" aria-describedby="search_character">
+                            <div class="input-group-btn">
+                                <button id="search_character" type="button" class="btn btn-default no_radius">
+                                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Process Panel Button -->
+                        <a id="process_panel" class="list-group-item text_center" data-toggle="modal" data-target="#character_process_panel">
+                            <span class="glyphicon glyphicon-folder-open" aria-hidden="true" style="margin-right:5px"></span>
+                            <b>Process Character Panel</b>
+                        </a>
+                    </div>
+                </div>
+                <!-- Character Panel Begin -->
+
+                <!-- Style Panel Begin -->
+                <div class="right col-lg-9">
+
+                    <!-- Base Button List Begin -->
+                    <nav class="row navbar navbar-default" style="margin:0">
+                        <div class="navbar-header btn-group" id="process-bar" role="group">
+                            <button id="base_info_btn" type="button" title="Show or hide the base information panel" class="btn btn-default btn-xs" data-toggle="collapse"
+                                data-target="#base_info" aria-expanded="true" aria-controls="collapseExample">
+                                <span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Base Info
+                            </button>
+                            <button id="crawler" type="button" title="Select the specificed element disabled" class="btn btn-default btn-xs start_draw">
+                                <span class="glyphicon glyphicon-hand-up" aria-hidden="true"></span>
+                                Select
+                            </button>
+                            <button id="add_style_row" type="button" title="Add a new style row" class="disabled btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                                Add
+                            </button>
+                            <button id="remove_style_row" type="button" title="Delete a specificed style row" class="disabled btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true"></span>
+                                Delete
+                            </button>
+                            <button id="commit_data" type="button" title="Commit the current data" class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-open" aria-hidden="true"></span>
+                                Commit
+                            </button>
+                            <button id="loging_out" type="button" title="Logging Out" class="btn btn-default btn-xs">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                <b style="color:#337ab7"></b> Login Out
+                            </button>
+                        </div>
+                    </nav>
+                    <!-- Base Button List End -->
+
+                    <!-- Base Character Information Begin -->
+                    <div class="row collapse" id="base_info">
+                        <div class="col-lg-3 form-horizontal">
+                            <div class="form-group">
+                                <label for="data_type">Data Type</label>
+                                <select class="form-control" id="data_type" rows="1">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="default_select">Default Select</label>
+                                <select class="form-control" id="default_select" rows="1">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="default" style="padding-right:20px;">AbsUrl</label>
+                                <input type="checkbox" id="abs_url" data-size="mini" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-3 form-horizontal">
+                            <div class="form-group">
+                                <label for="default">Default</label>
+                                <input type="text" class="form-control" id="default_value" placeholder="Default Value" rows="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="default">Validate Type</label>
+                                <select class="form-control" id="validate_type" rows="1">
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="default" style="">Important</label>
+                                <input type="checkbox" id="important" data-size="mini" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-lg-3" id="validate_list">
+                            <label for="validate_expr">Validate</label>
+                            <div class="list-group-item" style="height:78px;overflow:auto;padding:0;margin:0;" id="validate_expr">
+                                <input type="text" class="form-control" placeholder="exp" rows="1">
+                                <input type="text" class="form-control" placeholder="exp" rows="1">
+                                <input type="text" class="form-control" placeholder="......" id="add_check_exp" rows="1">
+                            </div>
+                            <div class="form-group">
+                                <label for="default" style="">Arithmetric Expression</label>
+                                <input type="text" class="form-control" id="calexpression" data-size="mini" placeholder="Arithmetric Expression">
+                            </div>
+                        </div>
+                        <div class="col-lg-3" id="replace_list">
+                            <label for="replacement">Replacement</label>
+                            <div style="height:78px;overflow:auto;" id="replacement">
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control old" placeholder="old" rows="1">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-arrow-right"></span>
+                                            </span>
+                                            <input type="text" class="form-control new" placeholder="new" rows="1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group">
+                                    <div class="list-group-item">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control old" placeholder="old" rows="1">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-arrow-right"></span>
+                                            </span>
+                                            <input type="text" class="form-control new" placeholder="new" rows="1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="list-group">
+                                    <div class="list-group-item" id="auto_add_group">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="......" rows="1">
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-arrow-right"></span>
+                                            </span>
+                                            <input type="text" class="form-control" placeholder="......" rows="1">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Base Character Information End -->
+
+                    <!-- Style Information Panel Begin -->
+                    <table id="style_content" class="row table table-striped distance_zero">
+                        <thead>
+                            <th class="table_column" width="20%" title="The jsoup selector">
+                                <center>SELECTOR</center>
+                            </th>
+                            <th class="table_column" width="10%" title="The attribution of the elements">
+                                <center>Attribute</center>
+                            </th>
+                            <th class="table_column" width="10%" title="The attribution of the elements">
+                                <center>Function</center>
+                            </th>
+                            <th class="table_column" width="10%" title="The attribution of the elements">
+                                <center>Priority</center>
+                            </th>
+                            <th class="table_column" width="20%" title="The description of elements">
+                                <center>Description
+                                    <strong>*</strong>
+                                </center>
+                            </th>
+                            <th class="table_column" width="15%" title="The regexp of elements">
+                                <center>RegExp</center>
+                            </th>
+                            <th class="table_column" width="5%" title="The group of regexp">
+                                <center>Group</center>
+                            </th>
+                            <th class="table_column" width="5%" title="Show the elements">
+                                <center>Show</center>
+                            </th>
+                            <th class="table_column" width="5%" title="Up this row!">
+                                <center>UP</center>
+                            </th>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!-- Style Information Panel End -->
+                </div>
+                <!-- Style Panel End -->
+                <div class="version_error" style="font-size:16px">
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 字段操作界面代码 -->
+    <div id="character_process_panel" class="modal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="processLabel"
+        style="overflow:auto">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header container-fluid" style="vertical-align:middle;">
+                    <button type="button" class="close close_panel" data-dismiss="modal" aria-label="Close">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                    <div class="col-md-2 dropdown" role="presentation" id="in_defa_char">
+                        <button class="btn btn-success dropdown-toggle bth-xs" type="button" id="crawler_template" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="true">
+                            Crawler Template
+                            <span class="caret"></span>
+                        </button>
+                        <ul id="type_content" class="dropdown-menu" aria-labelledby="crawler_template">
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <ol class="breadcrumb">
+                        <li>Root</li>
+                    </ol>
+                    <form class="form-inline" style="margin-bottom:5px">
+                        <div class="input-group">
+                            <div class="input-group-btn">
+                                <button type="button" id="add_character" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <input type="text" id="input_character_text" class="form-control" placeholder="Add Character" />
+                        </div>
+                        <div class="input-group" style="margin-left:20px">
+                            <div class="input-group-btn">
+                                <button type="button" id="delete_character" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                                </button>
+                            </div>
+                            <input type="text" id="remove_character_text" class="form-control" placeholder="Add Character" />
+                        </div>
+                    </form>
+                    <div id="current_character">
+                        <table class="table table-striped">
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 登录提示框 -->
+    <div class="modal fade" id="login_modal" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="loginLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <center>
+                        <b>
+                            <h4 class="modal-title" id="myModalLabel">Character Process</h4>
+                        </b>
+                    </center>
+                </div>
+                <div class="progress" id="progress_bar" style="display:none;maring:0px;border-radius:0;">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                        style="width: 100%">
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <center>
+                                <h4 style="color:red" class="login_info">
+                                    <strong></strong>
+                                </h4>
+                            </center>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-3 control-label">User</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputEmail3" placeholder="User Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
+                            <div class="col-sm-9">
+                                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="login" type="button" class="btn btn-success">Login In</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 遮罩层 -->
+    <div class="modal fade" id="waiting_bar" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="waitingModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal_body">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                    style="width: 100%">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 遮罩层 -->
+    <div class="modal fade" id="showExp" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="singleModalLabel">
+    </div>
+
+    <div id="list_pattern" style="display:none">
+        <!-- 列表标签模板 -->
+        <a class="list-group-item">
+            <span class="name">
+                <span>
+        </a>
+
+        <!-- 箭头标签模板 -->
+        <span class="character_label" aria-hidden="true"></span>
+
+        <!-- 抽屉标签模板 -->
+        <ul class="list-group character_children"></ul>
+    </div>
+
+    <div id="replace_pattern" style="display:none">
+        <div class="list-group" style="margin:0px;">
+            <div class="list-group-item" index="0" style="padding:0px;">
+                <div class="input-group">
+                    <input type="text" class="form-control old" rows="1" placeholder="old" style="resize:none">
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-arrow-right"></span>
+                    </span>
+                    <input type="text" class="form-control new" rows="1" placeholder="new" style="resize:none">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <table id="style_row_pattern" style="display:none">
+        <tr>
+            <td>
+                <textarea class="form-control selector" placeholder="Selector Expression" style="resize:none" rows="1"></textarea>
+            </td>
+            <td>
+                <textarea class="form-control attribute" placeholder="Attribute" style="resize:none" rows="1"></textarea>
+            </td>
+            <td>
+                <select class="form-control function" style="resize:none">
+                </select>
+            </td>
+            <td>
+                <select class="form-control priority" style="resize:none">
+                </select>
+            </td>
+            <td>
+                <textarea class="form-control description" placeholder="Description" style="resize:none" rows="1"></textarea>
+            </td>
+            <td>
+                <textarea class="form-control regular_exp" placeholder="Regular Expression" style="resize:none" rows="1"></textarea>
+            </td>
+            <td>
+                <textarea class="form-control group" placeholder="" style="resize:none" rows="1"></textarea>
+            </td>
+            <td style="vertical-align:middle;text-align:center;">
+                <button type="button" class="show-btn btn btn-primary btn-xs" title="Show the elements">Show</button>
+            </td>
+            <td style="vertical-align:middle;text-align:center;">
+                <button type="button" class="up-btn btn btn-primary btn-xs" title="Up this row">
+                    <span class="glyphicon glyphicon-arrow-up"></span>
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <table id="character_pattern" style="display:none">
+        <tr class="character">
+            <td class="name">
+                <a href="#"></a>
+            </td>
+            <td class="delete_label">
+                <button type="button" class="close removeCharacter btn-xs" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </td>
+        </tr>
+    </table>
+
+    <div id="breadcrumb_pattern" style="display:none">
+        <li class="final"></li>
+        <li class="middle">
+            <a href="#"></a>
+        </li>
+    </div>
+
+    <div id="dropdown_pattern" style="display:none">
+        <li>
+            <a href="#" class="script_type"></a>
+        </li>
+    </div>
+    <!--
+    <div id="alertSuccessBase" class="alert alert-success alert-dismissable" style="width:100px;padding:5px 10px 5px 10px;font-size:14px" >
+	<button type="button" class="close" aria-hidden="true" onclick="hideAlert(\'alertSuccessBase\');" >&times;</button>
+	<span id="alertSuccessContent">测试内容</span>
+	</div>-->
+
+    <!-- Plgin JS Begin-->
+    <!-- bootstrap源生js文件 -->
+    <script src="js/plugin/bootstrap/bootstrap.min.js"></script>
+    <!-- 提示框插件 -->
+    <script src="js/plugin/remind/remind_model.js"></script>
+    <script src="js/plugin/remind/util.js"></script>
+    <!-- switch插件 -->
+    <script src="js/plugin/bootstrap-switch/bootstrap-switch.min.js"></script>
+    <!-- Loading插件 -->
+    <script src="js/plugin/jquery-loading/jquery.mloading.js"></script>
+    <!-- Plgin JS Begin-->
+
+    <!-- Self JS Begin -->
+    <script src="js/action/style-panle.js"></script>
+    <script src="js/action/page.js"></script>
+    <script src="js/action/common.js"></script>
+    <script src="js/action/baseinfo.js"></script>
+    <script src="js/action/login.js"></script>
+    <script src="js/action/char-list-panel.js"></script>
+    <script src="js/action/char-process-panel.js"></script>
+    <script src="js/action/main.js"></script>
+    <!-- Self JS End -->
+
+</body>
+
+</html>

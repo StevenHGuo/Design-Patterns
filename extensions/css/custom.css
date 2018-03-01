@@ -1,0 +1,110 @@
+/* General Style */
+body{
+    font-size:9px;
+}
+
+.no_radius{
+    border-radius:0;
+}
+
+.text_center{
+    text-align:center;
+}
+
+.character_label{
+    position: absolute;
+    right: 20px;
+    top:50%;
+    transform: translateY(-50%);
+}
+
+.character_children{
+    padding-left:30px;
+    margin:0px;
+    padding:0px;
+    border-top:0;
+    border-bottom:0;
+    display:none;
+}
+
+.character_children a{
+    padding-left:40px;
+}
+
+.distance_zero{
+	padding:0;
+	margin:0;
+}
+
+/* Left Content Style*/
+#template_name{
+    background:#f5f5f5
+}
+
+#character_panel .breadcrumb{
+    margin:0px;
+    padding:0px 15px;
+    border:1px solid #ddd;
+    border-radius:0;
+    line-height:21px;
+}
+
+#character_panel a{
+    line-height: 21px;
+    padding-top:0px;
+    padding-bottom: 0px;
+    cursor: pointer;
+}
+
+#process-bar button{
+    height:100%
+}
+
+/* Right Content Sytle */
+#base_info{
+    border-bottom:3px solid #ddd;
+    padding:5px 20px;
+}
+
+#replacement > div{
+    margin:0;
+}
+
+#replacement .list-group-item{
+    padding:0px;
+}
+
+/*  */
+#character_process_panel .breadcrumb{
+    margin-bottom:5px;
+    font-size:12px;
+}
+
+#current_character {
+    height:200px;
+    overflow:auto;
+}
+
+.character .name{
+    width:70%;
+    padding-left:20px;
+    font-size:12px;
+}
+
+.character .delete_label{
+    vertical-align:middle;
+    text-align:center;
+    width:5%;
+}
+
+.regular_content tbody tr{
+    height:40px;
+}
+
+.select{
+    height:110px;
+}
+
+.select textarea{
+    height:99px;
+}
